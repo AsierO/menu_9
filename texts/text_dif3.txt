@@ -1,0 +1,42 @@
+In the transformative field of ultrafast light–matter
+interaction, characterization of strong-field laser pulses is
+crucial in order to draw quantitative conclusions from
+measurement results. Based on the detection of
+photoelectrons, the attosecond streaking technique
+provides insight into the system’s underlying quantum
+dynamics on the natural electronic time scale, combined
+with a powerful characterization of the used strong-field
+laser pulses [1-3]. Being capable of resolving bound-state
+quantum dynamics, the all-optical method of attosecond
+transient absorption spectroscopy (ATAS) [4-12] is an
+important complement to photoelectron-based methods.
+In addition to being sensitive to bound-bound transitions,
+ATAS allows targets to be studied all the way from a
+natural – weak-field – environment up to the strong-field
+regime. Using attosecond pulsed extreme-ultraviolet
+(XUV) light together with (typically) femtosecond nearinfrared
+(NIR) pulses in a pump-probe scheme, dynamical
+processes leave their fingerprints in the spectrum of the
+transmitted XUV light. Yet unlike streaking, up to now
+ATAS lacks the possibility for in-situ characterization of
+the femtosecond NIR laser pulse, which drives and
+controls the underlying electron dynamics. However,
+precise knowledge of its shape and intensity would
+enhance the scope of ATAS concerning quantitative
+measurements and the control of quantum dynamics in
+general.
+Here, we demonstrate a new scheme for ATAS combining
+the measurement of time-resolved quantum dynamics
+with the characterization of the few-cycle driving laser
+pulse in one single experiment. Our method is based on
+extracting the time-delay-dependent phase shift [11,13-
+15] imprinted on a resonance, which is excited by XUV
+light and dressed by the femtosecond laser pulse that is to
+be characterized. From this phase shift, we are able to
+directly obtain the laser pulse duration, as well as its time
+dependent intensity. Since we analyze the signature of
+the laser pulse interacting with the XUV-excited
+spectroscopy target, the pulse characteristics are
+determined in situ. The precise knowledge of laser pulse
+characteristics in ATAS will enable a more detailed
+analysis of bound-state dynamics in strong and short laser 

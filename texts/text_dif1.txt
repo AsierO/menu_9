@@ -1,0 +1,45 @@
+Nuclear magnetic resonance gyros (NMRGs) based on spin-exchange optical pumping
+of noble gases have been developed over several decades of largely industrial research,
+first at Litton Industries and more recently at Northrop Grumman Corporation (NGC).
+The basic physics of the production and detection of nuclear magnetic resonance using
+hyperpolarized noble gases has been extensively studied, and off-shoots of NMRGs in
+physics laboratories have achieved some of the highest sensitivity frequency measurements
+to date. In this paper we present a mostly self-contained discussion of the physics
+and operation of NMRGs of the Litton/NGC type.
+Although spin-exchange optical pumping (SEOP) of He-3 was first demonstrated in
+1960 by Bouchiat, Carver, and Varnum (Bouchiat et al., 1960), little follow-up occurred
+in academic laboratories in the 1960s and 1970s. During that period, Litton began investigating the use of SEOP for gyroscopic applications (Grover et al., 1979). This work
+included the first demonstrations of SEOP of Ne, Kr, and Xe, the recognition of the remarkably high polarizations attainable, and the further enhancement of hyperpolarized
+NMR signals using in-situ magnetometry (Grover, 1978). With the advent of ring-laser
+and fiber-optic gyros, this work was discontinued at Litton in the mid 1980s. Meanwhile,
+W. Happer and his group at Princeton published an extensive set of investigations into
+the fundamental physics of hyperpolarized noble gases (Happer et al., 1984; Zeng et al.,
+1985; Walker and Happer, 1997). This work led to the development of magnetic resonance
+imaging using hyperpolarized He and Xe (Albert et al., 1994; Middleton et al.,
+1995), high-density spin-polarized targets for nuclear and high-energy physics (Singh
+et al., 2015), neutron polarizers and analysers (Chen et al., 2014), extensive use of hyperpolarized
+Xe in chemical physics and NMR spectroscopy(Ledbetter et al., 2012), and
+further development of hyperpolarized gases for ultrasensitive spectroscopy in devices
+such as noble-gas masers (Glenday et al., 2008; Rosenberry and Chupp, 2001), gyros
+(Kornack et al., 2005; Fang et al., 2013) and co-magnetometers for studies of fundamental
+symmetries (Smiciklas et al., 2011; Brown et al., 2010).
+It is remarkable that with this tremendous range of applications of hyperpolarized
+noble gases, the original stimulating ideas from the 1970s about their use for NMRGs
+was never published beyond a single overview paper by Kanegsberg (1978), a review
+by Karwacki (1980), patents, conference proceedings, and project reports to funding
+agencies. This work was reviewed from a current perspective by Donley (2010). Interest
+in NMR gyros revived in the early 2000s at NGC when it was realized that NMRGs
+have the potential to outperform other types of gyros for small, low-power applications.
+This development is continuing (Larsen and Bulatowicz, 2012; Meyer and Larsen, 2014),
+and an overview of the basic concepts of NMRGs was recently published by Donley
+and Kitching (2013). The authors feel that it is timely to present a more detailed
+2 treatment of the physics of spin-exchange-pumped NMRGs, in particular as implemented
+in the Litton/NGC design. A parallel development has begun in China (Liu et al.,
+2015), and a related approach with applications to Xe edm searches is being pursued
+in Japan (Yoshimi et al., 2008). Although the individual components of NMRGs have
+been studied in other contexts, the realization of hyperpolarized gas techniques into a
+small physical package with remarkable capabilities vis-a-vis sensitivity, accuracy, while
+simultaneously maintaining an impressive bandwidth are of considerable current research
+interest. Furthermore, new approaches are now being investigated (at Wisconsin and
+elsewhere), and an appreciation for the successes and challenges of the NGC NMRG are
+essential for proper evaluation of those new approaches.

@@ -1,0 +1,49 @@
+groups. We here examined this result by considering the sample
+of large quasar groups published by Einasto et al. (2014),
+which is drawn from the SDSS DR7 quasar catalogue in the
+redshift range 1.0 ≤ z ≤ 1.8. We used the LQGs defined with
+a linking length of 70 h
+−1 Mpc. Because too few optical polarization
+data are available for the quasars that belong to the
+Einasto sample, we used radio polarization measurements from
+the JVAS/CLASS 8.4-GHz surveys (Jackson et al. 2007). This
+sample is claimed to be free of biases that might affect the polarization
+angles. Furthermore, the polarization vectors measured at
+8.4 GHz have a strong tendency to be perpendicular to the spin
+axes of the SMBHs in the quasar cores. To compare the position
+angles of the quasar polarization vectors with the position angles
+of the systems to which the quasars belong, we studied the LQGs
+through their inertia tensors in the three-dimensional comoving
+space.
+For rich quasar groups (m ≥ 20), we found that the spin axes
+of the SMBHs are preferentially parallel to the major axes of
+their host LQGs. This result adds weight to the previous finding
+by Hutsemékers et al. (2014) that in two large quasar groups the
+quasar spin axes (inferred from optical polarizations) align with
+the group axes. Combined with the initial discovery, our analysis
+indicates that the alignments of the SMBH spins axes with the
+LQG major axes do not depend on the quasar radio loudness.
+Additionally, the use of a large sample of LQGs allowed us
+to probe the alignments for a wide variety of quasar systems. We
+unveiled a surprising correlation: the relative orientations of the
+spin axes of quasars with respect to the major axes of their host
+LQGs appear to depend on the richness of the latter, or equivalently
+on the density of objects. The spin axes of SMBHs appear
+preferentially parallel to the major axes of their host LQGs when
+the latter are very rich (or have a very low density), while the spin
+axes become preferentially perpendicular to the LQG major axes
+when the richness decreases to m ≥ 10 or, equivalently, when the
+quasar density increases to 1.5 10−5
+(h
+−1 Mpc)−3
+. No correlation
+is observed below this richness or above this density. Possible interpretations
+were discussed in Sect. 5, but this intriguing feature
+needs to be confirmed.
+In agreement with the view that the richest large quasar
+groups at high redshift most likely represent the progenitors of
+complexes or chains of superclusters (Einasto et al. 2014), the
+correlation that we found might be the high-redshift counterpart
+of the alignments at z ∼ 0 of clusters of galaxies with the superclusters
+in which they are embedded (e.g. Einasto et al. 1980;
+West 1999).

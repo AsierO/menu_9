@@ -1,0 +1,39 @@
+time activation of the communities internal and external
+links can behave differently. In general, it is thought
+that temporal and topological correlations contribute to
+slow down the dynamical processes on networks especially
+when the dynamics on empirical networks is compared
+with that on randomized null models [10, 24, 25].
+Here we approach the problem from a different perspective.
+The topologically induced and temporal correlations
+in the interevent times of the network link
+activation are added artificially, with the possibility of
+tuning their strength. As paradigmartic examples we
+then consider two dynamical processes of diverse nature:
+Susceptible-Infected SI spreading and the voter model as
+paradigmatic prototypes of epidemics and opinion models.
+Our results show that the effect of both types of correlations
+alone on the dynamics are opposite (memory effects
+accelerate the dynamics, while correlations induced
+by community structure slows it down). However, when
+both types are combined the final dynamics crucially depends
+on how the combination is built with diverging
+outcomes if the correlations are strengthened.
+To illustrate the different types of correlations, we
+use data extracted from Twitter. Our database contains
+73 405 100 directed tweets (replies and mentions)
+obtained following the activity of 2 590 459 unique users.
+In this case, the nodes of the network are the users and a
+directed link is established every time that an user sends
+a message. In total, there are 5 812 089 links among the
+considered users. Figure 1a shows the activity pattern of
+a particular link. The x-axis represents time and a blue
+tick is displayed every time a message is sent. As can be
+seen, the events are concentrated in avalanches with periods
+of high activity and short interevent times followed
+by long periods of inactivity. The interevent time distribution
+is displayed in Figure 1b. The peaks correspond to
+circadian rhythms of multiples of 24 hours (see the top inset).
+The network can be divided in groups using a community
+detection algorithm. In this case, we employed
+Infomap [31]. The activation interevent times of the links

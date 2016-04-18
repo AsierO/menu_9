@@ -1,99 +1,168 @@
 #####Find several readability or textual difficulty formulas/algorithms and obtain the corresponding score for a given text
 ###Probably we should take into consideration the different factors of readability: formulas, text,...
 
-from readability_score.calculators.fleschkincaid import *
-from readability_score.calculators.dalechall import *
+import pickle
+
 from readability_score.calculators.ari import *
 from readability_score.calculators.colemanliau import *
+from readability_score.calculators.dalechall import *
 from readability_score.calculators.flesch import *
+from readability_score.calculators.fleschkincaid import *
 from readability_score.calculators.smog import *
-import pickle
+import os, os.path
+
 import matplotlib.pyplot as plt
-#import numpy as np
-from sklearn import datasets, linear_model
-from hyphen import Hyphenator, dict_info
-from hyphen.dictools import *
-import nltk
+import numpy as np
+#print numpy.__file__
+from sklearn import linear_model
+from scipy.optimize import minimize
 
-#nltk.download('punkt')
+def bundle(file):
+    fk = FleschKincaid(open(file).read(),locale='./hyph_en_US.dic')
+    dc = DaleChall(open(file).read(),simplewordlist=word_list, locale='./hyph_en_US.dic')
+    ari = ARI(open(file ).read(), locale='./hyph_en_US.dic')
+    cl = ColemanLiau(open( file ).read(), locale='./hyph_en_US.dic')
+    sm = SMOG(open( file ).read(), locale='./hyph_en_US.dic')
+    #TODO: Add more formulas that account for the readability of formulas present in the text and the number of figures
 
-#print dict_info.keys()
+    return fk.us_grade, dc.us_grade, ari.us_grade, cl.us_grade, sm.us_grade
 
-#awordList=['a','the']
+def word_count(file):
+    fk = FleschKincaid(open(file).read(),locale='./hyph_en_US.dic')
 
-sol_list=[]
-#No upper bound formula with min -3.4
-#Units are grade
-fk = FleschKincaid(open('text.txt').read(),locale='./hyph_en_US.dic')
-print fk.us_grade, fk.min_age
-#print fk.scores
-sol_list.append(fk.us_grade)
+    return fk.scores['word_count']
+
+def cost_fun(x):
+    """The cost function using ordinary least square"""
+    result=0
+    for i in range(file_num):
+        if i<(file_num/3):
+            fk_sc, dc_sc, ari_sc, cl_sc, sm_sc = bundle('./texts/text_eas'+str(i+1)+'.txt')
+            result+=((fk_sc*x[0]+dc_sc*x[1]+ari_sc*x[2]+cl_sc*x[3]+sm_sc*x[4])/5-6)**2
+            print 'easy', i
+            print result
+        elif i<(2*file_num/3):
+            fk_sc, dc_sc, ari_sc, cl_sc, sm_sc = bundle('./texts/text_norm'+str(i-2)+'.txt')
+            result+=((fk_sc*x[0]+dc_sc*x[1]+ari_sc*x[2]+cl_sc*x[3]+sm_sc*x[4])/5-10)**2
+            print 'norm', i
+            print result
+        else:
+            fk_sc, dc_sc, ari_sc, cl_sc, sm_sc = bundle('./texts/text_dif'+str(i-5)+'.txt')
+            result+=((fk_sc*x[0]+dc_sc*x[1]+ari_sc*x[2]+cl_sc*x[3]+sm_sc*x[4])/5-13)**2
+            print 'dif', i
+            print result
+    return result
+
+def final_formula(weights,filename):
+    fk_sc, dc_sc, ari_sc, cl_sc, sm_sc = bundle(filename)
+    return (fk_sc*weights[0]+dc_sc*weights[1]+ari_sc*weights[2]+cl_sc*weights[3]+sm_sc*weights[4])/5
+
+####Normalize the given score so that all different algorithms have the same max and min. The normalization corresponds to the grade
+
+
+#file_num=len([name for name in os.listdir('./texts/') if os.path.isfile(name)])
+#print file_num
+file_num=9
+#file_name=[name for name in os.listdir('./texts/') if os.path.isfile(name)]
+#print file_name
 
 #Load the list of easy_words for Dale Chall
 
 word_list=pickle.load( open( "dale_chall.p", "rb" ) )
 
-#Units are grade
-dc = DaleChall(open( 'text.txt' ).read(),simplewordlist=word_list, locale='./hyph_en_US.dic')
 
-print dc.us_grade, dc.min_age
-sol_list.append(dc.us_grade)
+##Now we proceed to add the results together to obtain a more meaningful result
+##We are going to give weights to each formula, build a cost function and minimize it.
+##We have obtained 9 texts and assigned the grade score: 3 easy (6), 3 normal (10) and 3 difficult (13).
+#TODO: Increase the number of files and the corresponding score in order to obtain better results.
+#The weight could be improved by assigning a caracteristic set of weights to different texts.
 
-ari = ARI(open( 'text.txt' ).read(), locale='./hyph_en_US.dic')
+##Initial values
+x0 = np.array([1, 1, 1, 1, 1])
 
-print ari.us_grade, ari.min_age
-sol_list.append(ari.us_grade)
+##Minimize the cost function
 
-cl = ColemanLiau(open( 'text.txt' ).read(), locale='./hyph_en_US.dic')
+res = minimize(cost_fun, x0, method='nelder-mead', options={'maxiter':20, 'disp': True})
 
-print cl.us_grade, cl.min_age
-sol_list.append(cl.us_grade)
+print 'Resulting weights',(res.x)
+#As it takes a long time, here are some sample weights
+backup_weigths=[ 0.17602172,  0.78345087,  0.30895142,  1.42169477,  1.19454384]
 
+######How your compound score can be operationalized to provide more accurate reading time estimates.
+###Here we need to take into consideration the length of the text and the readability.
+### So we determine the average time per word and then just multiply.
+#We start by determining the final grade_score of the documents to be used in the reading time estimates.
 
-#Probably redundant and difficult to put in common with the others
-ff = Flesch(open( 'text.txt' ).read(), locale='./hyph_en_US.dic')
+num_word_list=[]
+score_list=[]
+dif_final_score=final_formula(backup_weigths,'./texts/text_dif_test.txt')
+score_list.append(dif_final_score)
+num_word_list.append(word_count('./texts/text_dif_test.txt'))
+norm_final_score=final_formula(backup_weigths,'./texts/text_norm_test.txt')
+score_list.append(norm_final_score)
+num_word_list.append(word_count('./texts/text_norm_test.txt'))
+easy_final_score=final_formula(backup_weigths,'./texts/text_eas_test.txt')
+score_list.append(easy_final_score)
+num_word_list.append(word_count('./texts/text_eas_test.txt'))
 
-print  ff.reading_ease, ff.scores
-print 1-ff.reading_ease/100, ff.reading_ease/100
+print '3 scores', dif_final_score, norm_final_score, easy_final_score
 
-sm = SMOG(open( 'text.txt' ).read(), locale='./hyph_en_US.dic')
+#My reading times in seconds
+#This value could be measured using the command 'start = timeit.timeit()' for the time the user spends in a given page
+#or document. However, we should proceed with caution in the details of the measurement to account for: non-reading time,
+#unread text,....
 
-print sm.us_grade, sm.min_age
-sol_list.append(sm.us_grade)
+reading_times=[95, 104, 48]
 
-print sum(sol_list)/len(sol_list)
+#print num_word_list
+#Reading time per word
+reading_per_word=[float(reading_times[i])/num_word_list[i] for i in range(3)]
 
+print 'Reading time per word in seconds', reading_per_word
 
-train_Y=sol_list
-train_X=[0,1,2,3,4,5]
+#Now we perform linear regression with respect to readability and seconds to read a word.
+#We could also perform higher level regression or other techniques and compare results
+
+train_Y=reading_per_word
+train_X=score_list
 
 # Create linear regression object
 regr = linear_model.LinearRegression()
 
 # Train the model using the training sets
-regr.fit(train_X, train_Y)
+regr.fit(np.reshape(train_X,(3,1)), np.reshape(train_Y,(3,1)))
 
-test_X=[2.5]
+test_X=np.reshape([5,6,7,8,9,10],(6,1))
 
 # The coefficients
-print('Coefficients: \n', regr.coef_)
-# The mean square error
-#print("Residual sum of squares: %.2f"
-#      % np.mean((regr.predict(diabetes_X_test) - diabetes_y_test) ** 2))
-# Explained variance score: 1 is perfect prediction
-#print('Variance score: %.2f' % regr.score(diabetes_X_test, diabetes_y_test))
+#print('Coefficients:', regr.coef_[0][0])
+
+#print regr.coef_
+#print regr.predict(0)+ 6*regr.coef_[0][0]
 
 # Plot outputs
-#plt.scatter(diabetes_X_test, diabetes_y_test,  color='black')
-plt.plot(test_X, regr.predict(test_X), color='blue',
-         linewidth=3)
+plt.scatter(np.reshape(train_X,(3,1)), np.reshape(train_Y,(3,1)),  color='black')
+plt.plot(test_X, regr.predict(test_X), color='blue',linewidth=3)
 
-plt.xticks(())
-plt.yticks(())
+plt.axis([5, 10, 0, 0.25])
+plt.xlabel("Readability score")
+plt.ylabel("Seconds per word")
 
 plt.show()
 
-####Normalize the given score so that all different algorithms have the same max and min (is any other normalization required?)
+#More complex techniques can be applied for bigger datasets to improve accuracy.
+#The basic idea is to have a regression that gives the seconds per word for a given readability document.
+#For example for a document with 10 readability score and 500 words, the amount of time that we expect would be:
+
+print 'Number of minutes for the given text', float(regr.predict(10)*500)/60
+
+### This result applies only for texts with words, for formulas we should operate in a similar way with different time scale
+#and the same goes for figures.
+###e.g.: n_words * t_word_difficulty_text + n_formulas * t_formula_difficulty + n_figures * t_figure_difficulty....
+## This proccess should be repeated for formulas and images.
+# Another factor that we have not taken into consideration is the typography of the document.
+
+
 
 
 
@@ -106,11 +175,7 @@ plt.show()
 
 
 
-######How your compound score can be operationalized to provide more accurate reading time estimates.
-###Here we need to take into consideration the length of the text and the readability.
-### So we determine the average time per word (or equivalent minimum value) and then just multiply.
-### This applies only for texts with words, for formulas we should operate in a similar way with different time scale.
-###e.g.: n_words * t_word_difficulty_text + n_formulas * t_formula_difficulty
+
 
 
 
