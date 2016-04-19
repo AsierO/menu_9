@@ -23,7 +23,7 @@ def bundle(file):
     ari = ARI(open(file ).read(), locale='./hyph_en_US.dic')
     cl = ColemanLiau(open( file ).read(), locale='./hyph_en_US.dic')
     sm = SMOG(open( file ).read(), locale='./hyph_en_US.dic')
-    #TODO: Add more formulas that account for the readability of formulas present in the text and the number of figures
+    #Add more formulas that account for the readability of formulas present in the text and the number of figures
 
     return fk.us_grade, dc.us_grade, ari.us_grade, cl.us_grade, sm.us_grade
 
@@ -39,18 +39,18 @@ def cost_fun(x):
         if i<(file_num/3):
             fk_sc, dc_sc, ari_sc, cl_sc, sm_sc = bundle('./texts/text_eas'+str(i+1)+'.txt')
             result+=((fk_sc*x[0]+dc_sc*x[1]+ari_sc*x[2]+cl_sc*x[3]+sm_sc*x[4])/5-6)**2
-            print 'easy', i
-            print result
+            #print 'easy', i
+            #print result
         elif i<(2*file_num/3):
             fk_sc, dc_sc, ari_sc, cl_sc, sm_sc = bundle('./texts/text_norm'+str(i-2)+'.txt')
             result+=((fk_sc*x[0]+dc_sc*x[1]+ari_sc*x[2]+cl_sc*x[3]+sm_sc*x[4])/5-10)**2
-            print 'norm', i
-            print result
+            #print 'norm', i
+            #print result
         else:
             fk_sc, dc_sc, ari_sc, cl_sc, sm_sc = bundle('./texts/text_dif'+str(i-5)+'.txt')
             result+=((fk_sc*x[0]+dc_sc*x[1]+ari_sc*x[2]+cl_sc*x[3]+sm_sc*x[4])/5-13)**2
-            print 'dif', i
-            print result
+            #print 'dif', i
+            #print result
     return result
 
 def final_formula(weights,filename):
@@ -59,30 +59,24 @@ def final_formula(weights,filename):
 
 ####Normalize the given score so that all different algorithms have the same max and min. The normalization corresponds to the grade
 
-
-#file_num=len([name for name in os.listdir('./texts/') if os.path.isfile(name)])
-#print file_num
 file_num=9
-#file_name=[name for name in os.listdir('./texts/') if os.path.isfile(name)]
-#print file_name
-
 #Load the list of easy_words for Dale Chall
-
 word_list=pickle.load( open( "dale_chall.p", "rb" ) )
 
 
 ##Now we proceed to add the results together to obtain a more meaningful result
 ##We are going to give weights to each formula, build a cost function and minimize it.
 ##We have obtained 9 texts and assigned the grade score: 3 easy (6), 3 normal (10) and 3 difficult (13).
-#TODO: Increase the number of files and the corresponding score in order to obtain better results.
+#Increase the number of files and the corresponding score in order to obtain better results.
 #The weight could be improved by assigning a caracteristic set of weights to different texts.
 
 ##Initial values
 x0 = np.array([1, 1, 1, 1, 1])
 
 ##Minimize the cost function
-
-res = minimize(cost_fun, x0, method='nelder-mead', options={'maxiter':20, 'disp': True})
+print 'Minimizing the cost function...'
+print '(It make take some time, check the backup weigths in the code)'
+res = minimize(cost_fun, x0, method='nelder-mead', options={'maxiter':2, 'disp': True})
 
 print 'Resulting weights',(res.x)
 #As it takes a long time, here are some sample weights
@@ -114,7 +108,7 @@ print '3 scores', dif_final_score, norm_final_score, easy_final_score
 
 reading_times=[95, 104, 48]
 
-#print num_word_list
+
 #Reading time per word
 reading_per_word=[float(reading_times[i])/num_word_list[i] for i in range(3)]
 
@@ -132,13 +126,7 @@ regr = linear_model.LinearRegression()
 # Train the model using the training sets
 regr.fit(np.reshape(train_X,(3,1)), np.reshape(train_Y,(3,1)))
 
-test_X=np.reshape([5,6,7,8,9,10],(6,1))
-
-# The coefficients
-#print('Coefficients:', regr.coef_[0][0])
-
-#print regr.coef_
-#print regr.predict(0)+ 6*regr.coef_[0][0]
+test_X=np.reshape([5,10],(2,1))
 
 # Plot outputs
 plt.scatter(np.reshape(train_X,(3,1)), np.reshape(train_Y,(3,1)),  color='black')
@@ -161,15 +149,6 @@ print 'Number of minutes for the given text', float(regr.predict(10)*500)/60
 ###e.g.: n_words * t_word_difficulty_text + n_formulas * t_formula_difficulty + n_figures * t_figure_difficulty....
 ## This proccess should be repeated for formulas and images.
 # Another factor that we have not taken into consideration is the typography of the document.
-
-
-
-
-
-
-
-
-#####Add the scores in a non-trivial way, netflix example, most probably machine learning required to determine the weights.
 
 
 
